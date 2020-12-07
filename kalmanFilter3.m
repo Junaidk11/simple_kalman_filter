@@ -29,29 +29,22 @@ for k=1:100
     % of the true state
     X_predicted_current = Fk*X_updated_estimation;
     P_predicted_current = Fk*P_updated*Fk' + Qk;
-    %P_predicted_current = diag(diag(P_predicted_current));
     
     % Predicted Output of the Model
     Y_Predicted = X_predicted_current(14,1)*0.5 + X_predicted_current(15,1)*0.5;
-    %Y_Predicted = Hk*X_predicted_current;
-    %Y_Predicted = eye(20)*X_predicted_current;
     
     % BC CDC Data
     Y_measured = BC_CDC_CASES(k);
     
     % Calculat Kalman gain using Error in measured value and the predicted new state
-    %Kalman_Gain = (P_predicted_current*eye(20)')/(eye(20)*P_predicted_current*eye(20)' + Rk);
     Kalman_Gain = (P_predicted_current*Hk')/(Hk*P_predicted_current*Hk' + Rk);
-    %Kalman_Gain = diag(diag(Kalman_Gain));
     
     % Update Prediction of the New State based on Kalman gain 
     X_updated_estimation = X_predicted_current + Kalman_Gain*(Y_measured - Y_Predicted);
     
     % Update Error in current estimation of the true state - will be used
     % in the next iteration of Kalman filter
-    %P_updated = (eye(20)-Kalman_Gain*eye(20))*P_predicted_current;
     P_updated = (eye(20)-Kalman_Gain*Hk)*P_predicted_current;
-    %P_updated = diag(diag(P_updated));
     
     days(k) = k;
     Yk(k) = Y_measured;
