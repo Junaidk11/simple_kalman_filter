@@ -24,6 +24,7 @@ Updated_new_infections(1:275,1) =0; % x_hat_plus_day1
 T = readtable('bccdc_data.csv','HeaderLines',1);
 BC_CDC_CASES = table2array(T(:,2)); % Comment this out if you uncomment above line and vice vera
 
+
 for k=1:275 
     % Calculate Predicted New State and Predicted Error in the estimation
     % of the true state
